@@ -13,6 +13,7 @@ class Notification(val msg:String) extends Value {
 object Notification {
   def apply(msg: String) = {
     new Notification(msg)
+
 //    val OK = new Notification(msg)
 //    val DONE = new Notification(msg)
 //    val UNSEPCIFIED = new Notification(msg)
