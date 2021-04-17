@@ -21,14 +21,6 @@ object testALU extends App {
     println(alu.execute(Identifier("not"), List(Boole(false))))  // true
     println(alu.execute(Identifier("not"), List(Boole(true))))  // false
 
-    println()
-    val noti = Notification("OK")
-    println(noti)
-    val noti2 = Notification("DONE")
-    println(noti2)
-    val noti3 = Notification("UNSEPCIFIED")
-    println(noti3)
-
   } catch {
     case e: Exception => println(e)
   }

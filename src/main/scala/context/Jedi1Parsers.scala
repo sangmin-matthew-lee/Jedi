@@ -4,6 +4,8 @@ import scala.util.parsing.combinator._
 import expression._
 import value._
 
+import java.nio.channels.NonReadableChannelException
+
 /*
  * Notes:
  * disjunction reduces to conjunction reduces to equality ... reduces to term
@@ -40,13 +42,13 @@ class Jedi1Parsers extends RegexParsers {
   // equality ::= inequality ~ ("==" ~ inequality)?
   def equality: Parser[Expression] = inequality ~ opt("==" ~> inequality) ^^ {
     case inequ ~ None => inequ
-    case inequ ~ more => FunCall(Identifier("equals"), more.toList)
+    case inequ ~ more => FunCall(Identifier("equals"), inequ::more.toList)
   }
 
   // inequality ::= sum ~ (("<" | ">" | "!=") ~ sum)?
   def inequality: Parser[Expression] = sum ~ opt("(\"<\" | \">\" | \"!=\")" ~> sum) ^^ {
     case sum ~ None => sum
-    case sum ~ more => FunCall(Identifier("unequals"), more.toList)
+    case sum ~ more => FunCall(Identifier("unequals"), sum::more.toList)
   }
 
   // sum ::= product ~ ("+" | "-") ~ product)*
@@ -71,8 +73,6 @@ class Jedi1Parsers extends RegexParsers {
     case t ~ more => parseProduct(t,more)
   }
 
-  // use tail recursion to imitate left reduce
-  // parses a - b + c into add(sub(a, b), c)
   private def parseProduct(result: Expression, unseen: List[String ~ Expression]): Expression = {
     def combiner(exp: Expression, next: String~Expression) =
       next match {
@@ -121,9 +121,12 @@ class Jedi1Parsers extends RegexParsers {
   }
 
   // operands ::= "(" ~ (expression ~ ("," ~ expression)*)? ~ ")"
-  def operands: Parser[Expression] = "(" ~ rep(expression ~ ("," ~ expression)*)? ~ ")" ^^ {
-    case op ~ more => ???
+  def operands: Parser[List[Expression]] = "(" ~ opt(expression ~ rep("," ~> expression)) ~ ")" ^^ {
+    case "(" ~ None ~ ")" => None.toList
+    case "(" ~ (op ~ Nil) ~ ")" => op.toList
+    case "(" ~ (op ~ more) ~ ")" => op::more.toList
   }
-
 }
 
+//"(" ~ expression ~ opt(rep("," ~ expression)) ~ ")"
+//"(" ~ (opt(expression ~ rep("," ~ expression))) ~ ")"
