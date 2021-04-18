@@ -20,6 +20,8 @@ object testALU extends App {
     println(alu.execute(Identifier("more"), List(Chars("abc"), Chars("def"))))  // false
     println(alu.execute(Identifier("not"), List(Boole(false))))  // true
     println(alu.execute(Identifier("not"), List(Boole(true))))  // false
+    println(alu.execute(Identifier("unequals"), List(Exact(5), Exact(6)) ))  // ture
+    println(alu.execute(Identifier("unequals"), List(Exact(5), Exact(5)) ))  // ture
 
   } catch {
     case e: Exception => println(e)

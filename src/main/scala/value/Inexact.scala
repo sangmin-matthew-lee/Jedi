@@ -6,7 +6,7 @@ case class Inexact(val value: Double) extends Numeric with Ordered[Value] {
 
   def +(other: Value): Addable =
     other match {
-      case x: Exact => Exact(this.value.toInt + x.value)
+      case x: Exact => Inexact(this.value + x.value)
       case x: Inexact => Inexact(this.value + x.value)
       case _ => throw new TypeException("Numeric operand required")
     }

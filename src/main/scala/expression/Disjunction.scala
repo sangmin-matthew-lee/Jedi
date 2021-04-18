@@ -7,7 +7,6 @@ case class Disjunction(operands: List[Expression]) extends SpecialForm {
   override def execute(env: Environment): Value = {
 
     def helper( unseen:List[Expression]):Boole={
-
       //When all expressions are false
       if(unseen.head == Nil) Boole(false)
       //if(unseen.head == Nil) throw new SyntaxException
