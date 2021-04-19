@@ -40,15 +40,18 @@ class Jedi1Parsers extends RegexParsers {
   }
 
   // equality ::= inequality ~ ("==" ~ inequality)?
-  def equality: Parser[Expression] = inequality ~ opt("==" ~> inequality) ^^ {
+  def equality: Parser[Expression] = inequality ~ opt("==" ~ inequality) ^^ {
     case inequ ~ None => inequ
-    case inequ ~ more => FunCall(Identifier("equals"), inequ::more.toList)
+    case inequ ~ Some("==" ~ more) => FunCall(Identifier("equals"), inequ::Some(more).toList)
   }
 
   // inequality ::= sum ~ (("<" | ">" | "!=") ~ sum)?
-  def inequality: Parser[Expression] = sum ~ opt("(\"<\" | \">\" | \"!=\")" ~> sum) ^^ {
+  def inequality: Parser[Expression] = sum ~ opt((("<" | ">" | "!=") ~ sum)) ^^ {
     case sum ~ None => sum
-    case sum ~ more => FunCall(Identifier("unequals"), sum::more.toList)
+    //case sum ~ more => FunCall(Identifier("unequals"), sum::more.toList)
+    case sum ~ Some("<" ~ more) => FunCall(Identifier("less"),sum::Some(more).toList)
+    case sum ~ Some(">" ~ more) => FunCall(Identifier("more"),sum::Some(more).toList)
+    case sum ~ Some("!=" ~ more) => FunCall(Identifier("unequals"),sum::Some(more).toList)
   }
 
   // sum ::= product ~ ("+" | "-") ~ product)*

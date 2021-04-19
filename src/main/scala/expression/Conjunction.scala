@@ -2,18 +2,18 @@ package expression
 import context.{Environment, SyntaxException}
 import value._
 
+import scala.util.control.Breaks.break
+
 // &&
- case class Conjunction(operands: List[Expression]) extends SpecialForm {
+ case class Conjunction(val operands: List[Expression]) extends SpecialForm {
   override def execute(env: Environment): Value = {
 
-    def helper(unseen:List[Expression]):Boole = {
-
-      //When all expressions are true
-      if(unseen.head == Nil) Boole(true)
-      //if(unseen.head == Nil) throw new SyntaxException
-      else if(unseen.head == false) Boole(false)
-      else helper(unseen.tail)
+    var result = Boole.TRUE
+    for (exp <- operands if result == Boole.TRUE) {
+      if (exp.execute(env) == Boole.FALSE) {
+        result = Boole.FALSE
+      }
     }
-    helper(operands)
+    result
   }
 }

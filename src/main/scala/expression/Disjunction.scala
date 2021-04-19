@@ -6,13 +6,12 @@ import value._
 case class Disjunction(operands: List[Expression]) extends SpecialForm {
   override def execute(env: Environment): Value = {
 
-    def helper( unseen:List[Expression]):Boole={
-      //When all expressions are false
-      if(unseen.head == Nil) Boole(false)
-      //if(unseen.head == Nil) throw new SyntaxException
-      else if(unseen.head == true) Boole(true)
-      else helper(unseen.tail)
+    var result = Boole.FALSE
+    for(exp <- operands if result==Boole.FALSE){
+      if(exp.execute(env)==Boole.TRUE){
+        result = Boole.TRUE
+      }
     }
-    helper(operands)
+    result
   }
 }

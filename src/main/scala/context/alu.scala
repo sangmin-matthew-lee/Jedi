@@ -77,7 +77,7 @@ object alu {
   }
 
   private def more(args: List[Value]): Value = {
-    if(args.size != 2) throw new TypeException("2 inputs required by <")
+    if(args.size != 2) throw new TypeException("2 inputs required by >")
     if(!args(0).isInstanceOf[Ordered[Value]]) throw new TypeException("Inputs to > must be orderable")
     Boole(args(0).asInstanceOf[Ordered[Value]] > args(1))
   }
