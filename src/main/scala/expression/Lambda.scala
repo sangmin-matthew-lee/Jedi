@@ -1,7 +1,10 @@
 package expression
-import context.Environment
-import value.Value
+import context._
+import value._
 
-class Lambda extends SpecialForm {
-  override def execute(env: Environment): Value = ???
+case class Lambda(val parameters: List[Identifier], val body: Expression) extends SpecialForm {
+  override def execute(env: Environment): Value = {
+    val closure = new Closure(parameters, body, env)
+    closure.apply(parameters.map(_.execute(env)))
+  }
 }

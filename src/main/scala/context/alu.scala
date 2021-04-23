@@ -15,6 +15,7 @@ object alu {
     case "more" => more(args)          // binary
     case "unequals" => unequals(args)  // binary
     case "not" => not(args)            // unary
+    case "write" => write(args)
 //    // TBC
   }
 
@@ -103,7 +104,7 @@ object alu {
     args(0).asInstanceOf[Boole].unary_!()
   }
 
-  // etc.
+  private def write(args: List[Value]): Value = { println(args(0)); Notification.DONE }
 
 
 }

@@ -9,7 +9,8 @@ import scala.io.{Source, StdIn}
  * console.main launches repl or executes a Jedi file
  */
 object console {
-  val parsers = new Jedi1Parsers // for now
+  //val parsers = new Jedi1Parsers // For Jedi1.0
+  val parsers = new Jedi2Parsers // For Jedi2.0
   val globalEnv = new Environment
   var verbose = false
 
