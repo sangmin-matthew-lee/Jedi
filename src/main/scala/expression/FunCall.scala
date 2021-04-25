@@ -10,7 +10,8 @@ case class FunCall(val operator: Identifier, val operands:List[Expression]=null)
         //operator is a closure created by a lambda
         if(env.contains(operator) && operator.execute(env).isInstanceOf[Closure]) {
           print("This is closure!")
-          ???
+          //apply closure to args
+
         }
         else alu.execute(operator, arguments)       // operator is from alu
     }
