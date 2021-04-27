@@ -102,7 +102,7 @@ object console {
         }
         case e: Exception => {
           println(e.getMessage)
-          more = false
+          //more = false
         }
       } finally {
         Console.flush

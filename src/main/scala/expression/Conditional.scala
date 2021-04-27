@@ -1,11 +1,11 @@
 package expression
 import context.Environment
-import value.{Notification, Value}
+import value._
 
 case class Conditional(condition: Expression, consequent: Expression, alternative: Expression=null) extends SpecialForm {
   override def execute(env: Environment): Value = {
 
-    if(condition == true) {
+    if(condition.execute(env) == Boole.TRUE) {
       consequent.execute(env)
     } else {  //condition is false -> execute alternative
       if(alternative == null) {

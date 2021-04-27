@@ -3,13 +3,13 @@ package value
 import context._
 import expression._
 
-class Closure(val parameters:List[Identifier]=null, val body: Expression, val defEnv:Environment) extends Value {
+class Closure(val parameters:List[Identifier], val body: Expression, val defEnv:Environment) extends Value {
 
     def apply(args:List[Value]): Value = {
       val tempEnv = new Environment(defEnv)   //create temp Env extending def Env
-      print("temp Evn is created")
+      //println("temp Evn is created")
       tempEnv.bulkPut(parameters, args)     //bind paramters to arguments in temp Env
-      print("bind complete")
+      //println("bind complete")
       body.execute(tempEnv)
     }
 }
