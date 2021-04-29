@@ -28,6 +28,17 @@ class Jedi2Parsers extends Jedi1Parsers {
     case "{" ~ block ~ more ~ "}" =>  Block(block::more)
   }
 
-  // override of term parser
-  override def term: Parser[Expression]  = lambda | funCall | block | literal | "("~>expression<~")"
+  // freeze parser
+  // freeze ::= "freeze" ~ "(" ~ expression ~ ")" // makes a MakeThunk expression
+  def freeze: Parser[Thunk] = "freeze" ~ "(" ~ expression ~ ")" ^^ {
+    case "freeze" ~ "(" ~ exp ~ ")" => MakeThunk(exp)
+  }
+
+  // delay parser
+  // delay ::= "delay" ~ "(" ~ expression ~ ")" // makes a MakeText expression
+
+  //override of term parser
+  override def term: Parser[Expression]  = lambda | freeze | delay | funCall | block | literal | "("~>expression<~")"
+
+  //override def term: Parser[Expression]  = lambda | funCall | block | literal | "("~>expression<~")"
 }
