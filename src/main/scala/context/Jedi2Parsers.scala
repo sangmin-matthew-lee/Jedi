@@ -30,12 +30,15 @@ class Jedi2Parsers extends Jedi1Parsers {
 
   // freeze parser
   // freeze ::= "freeze" ~ "(" ~ expression ~ ")" // makes a MakeThunk expression
-  def freeze: Parser[Thunk] = "freeze" ~ "(" ~ expression ~ ")" ^^ {
+  def freeze: Parser[MakeThunk] = "freeze" ~ "(" ~ expression ~ ")" ^^ {
     case "freeze" ~ "(" ~ exp ~ ")" => MakeThunk(exp)
   }
 
   // delay parser
   // delay ::= "delay" ~ "(" ~ expression ~ ")" // makes a MakeText expression
+  def delay: Parser[MakeText] = "delay" ~ "(" ~ expression ~ ")" ^^ {
+    case "delay" ~ "(" ~ exp ~ ")" => MakeText(exp)
+  }
 
   //override of term parser
   override def term: Parser[Expression]  = lambda | freeze | delay | funCall | block | literal | "("~>expression<~")"
