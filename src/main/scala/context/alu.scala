@@ -170,6 +170,11 @@ object alu {
 
   // returns the content of args(0)
   private def dereference(args:List[Value]):Value = {
-    args(0)
+    if(args(0).isInstanceOf[Variable]){
+      args(0).asInstanceOf[Variable].content
+    }
+    else {
+      throw new TypeException()
+    }
   }
 }

@@ -17,8 +17,8 @@ class Jedi3Parsers extends Jedi2Parsers {
   }
 
   // dereference ::= "[" ~ expression ~ "]"
-  def dereference: Parser[Dereference] = "[" ~ expression ~ "]" ^^ {
-    case "[" ~ exp ~ "]" => Dereference(exp)
+  def dereference: Parser[Expression] = "[" ~ expression ~ "]" ^^ {
+    case "[" ~ exp ~ "]" => FunCall(Identifier("dereference"), exp::Nil)
   }
   override def expression: Parser[Expression] = declaration | conditional | iteration | disjunction | failure("Invalid expression")
   override def term: Parser[Expression]  = lambda | freeze  | funCall | block |  assignment | dereference | literal | "("~>expression<~")"
