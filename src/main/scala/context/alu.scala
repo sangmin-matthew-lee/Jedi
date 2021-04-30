@@ -16,6 +16,11 @@ object alu {
     case "unequals" => unequals(args)  // binary
     case "not" => not(args)            // unary
     case "write" => write(args)
+    case "nil" => getEmpty()
+    case "cons" => cons(args)
+    case "car" => car(args)
+    case "cdr" => cdr(args)
+    case "list" => list(args)
 //    // TBC
   }
 
@@ -106,5 +111,26 @@ object alu {
 
   private def write(args: List[Value]): Value = { println(args(0)); Notification.DONE }
 
+  private def getEmpty():Value = empty
 
+  private def cons(args:List[Value]) : Value = {
+    if(args.size != 2) throw new IllegalValueException("Input must be two")
+    //println(Pair(args(0),args(1)).isInstanceOf[Value] )
+    Pair(args(0),args(1))
+  }
+
+  private def car(args:List[Value]) : Value = {
+    args(0).asInstanceOf[Pair].first
+  }
+
+  private def cdr(args:List[Value]) : Value = {
+    args(0).asInstanceOf[Pair].second
+  }
+
+  private def list(args:List[Value]) : Value = {
+    if(args.size < 2) throw new TypeException("2 or more inputs required")
+    for (s <- args) {
+      Pair(s,s)
+    }
+  }
 }

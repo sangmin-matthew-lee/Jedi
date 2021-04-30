@@ -9,6 +9,26 @@ case class FunCall(val operator: Identifier, val operands:List[Expression]) exte
       var arguments: List[Value] = Nil   //eager execution
       //val op = operator.execute(env)
 
+     if (env.contains(operator)) {
+       if (flags.paramPassing == flags.BY_REF) {
+         arguments = operands.map(new Thunk(_,env))   //args are Thunk now
+       } else {
+         arguments = operands.map(_.execute(env)) //args are not Thunk
+       }
+       //etc.
+       operator.execute(env) match {
+         case closure: Closure => closure.apply(arguments)
+         case thunk: Thunk => thunk.apply()
+       }
+     }
+     else {   // ALU
+       arguments = operands.map(_.execute(env))
+       alu.execute(operator, arguments)
+     }
+    }
+}
+
+/*
           //operator is a closure created by a lambda
           if (env.contains(operator) && operator.execute(env).isInstanceOf[Closure]) {
             arguments = operands.map(_.execute(env))
@@ -16,15 +36,4 @@ case class FunCall(val operator: Identifier, val operands:List[Expression]) exte
               case closure: Closure => closure(arguments)
             }
           }
-          else {
-            arguments = operands.map(_.execute(env))
-            alu.execute(operator, arguments)
-          } // operator is from alu
-
-    }
-}
-
-//def fun1 = lambda(x, y) 3 * x + 2 * y
-//ok
-//-> fun1(5, 7)
-//29
+ */

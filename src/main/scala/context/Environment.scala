@@ -21,7 +21,7 @@ class Environment(var extension: Environment = null)
     if (super.contains(name)) super.apply(name)
     else if (extension != null) extension.apply(name)
     else {
-      println("Undefine error")
+      println("Undefine error in Env")
       throw new UndefinedException(name)
     }
   }
