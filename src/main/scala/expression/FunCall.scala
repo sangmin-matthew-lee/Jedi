@@ -10,6 +10,7 @@ case class FunCall(val operator: Identifier, val operands:List[Expression]) exte
       //val op = operator.execute(env)
 
      if (env.contains(operator)) {
+       println("ID is new")
        if (flags.paramPassing == flags.BY_REF) {
          arguments = operands.map(new Thunk(_,env))   //args are Thunk now
        } else {
@@ -22,6 +23,7 @@ case class FunCall(val operator: Identifier, val operands:List[Expression]) exte
        }
      }
      else {   // ALU
+       println("ID is ALU")
        arguments = operands.map(_.execute(env))
        alu.execute(operator, arguments)
      }

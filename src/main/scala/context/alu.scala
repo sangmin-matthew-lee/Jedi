@@ -3,25 +3,51 @@ package context
 import value._
 import expression._
 
+/*
+ * Notes:
+ * alu implements all low-level arithmetic, logic, and I/O functions
+ * alu does lots of type checking
+ * alu is a singleton
+ */
 object alu {
 
   def execute(opcode: Identifier, args: List[Value]): Value = opcode.name match {
-    case "add" => add(args)            // n-ary
-    case "mul" => mul(args)            // n-ary
-    case "sub" => sub(args)            // n-ary
-    case "div" => div(args)            // n-ary
-    case "less" => less(args)          // binary
-    case "equals" => same(args)        // binary
-    case "more" => more(args)          // binary
-    case "unequals" => unequals(args)  // binary
-    case "not" => not(args)            // unary
-    case "write" => write(args)
+    case "add" => add(args)
+    case "mul" => mul(args)
+    case "sub" => sub(args)
+    case "div" => div(args)
+    case "less" => less(args)
+    case "more" => more(args)
+    case "equals" => equals(args)     //it was same in Jedi1.0
+    case "unequals" => unequals(args)
+    case "not" => not(args)
+    //Pair
     case "nil" => getEmpty()
     case "cons" => cons(args)
     case "car" => car(args)
     case "cdr" => cdr(args)
     case "list" => list(args)
-//    // TBC
+    // variables
+    //case "dereference" => dereference(args)
+    case "var" => makeVar(args)
+    // primitive I/O ops:
+    case "write" => write(args)
+    // case "prompt" => prompt(args)
+    // case "read" => read(args)
+
+    // store ops
+    /*
+    case "store" => store(args)
+    case "put" => put(args)
+    case "rem" => rem(args)
+    case "contains" => contains(args)
+    case "map" => map(args)
+    case "filter" => filter(args)
+    case "get" => get(args)
+    case "addLast" => addLast(args)
+    case "size" => size(args)
+    */
+    case _ => throw new UndefinedException(opcode)
   }
 
   private def add(args: List[Value]): Value = {
@@ -88,7 +114,7 @@ object alu {
     Boole(args(0).asInstanceOf[Ordered[Value]] > args(1))
   }
 
-  private def same(args: List[Value]): Value = {
+  private def equals(args: List[Value]): Value = {
     if(args.size != 2) throw new TypeException("2 inputs required by ==")
     if(!args(0).isInstanceOf[Ordered[Value]]) throw new TypeException("Inputs to == must be orderable")
     Boole(args(0).asInstanceOf[Ordered[Value]] == args(1))
@@ -137,4 +163,11 @@ object alu {
     //def p = list("a", "e" ,"i", "o", "u")
   }
 
+  private def makeVar(args:List[Value]): Value = {
+    Variable(args(0))
+  }
+
+//  private def dereference(args:List[Value]):Value = {
+//
+//  }
 }

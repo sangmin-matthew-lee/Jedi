@@ -10,7 +10,8 @@ import scala.io.{Source, StdIn}
  */
 object console {
   //val parsers = new Jedi1Parsers // For Jedi1.0
-  val parsers = new Jedi2Parsers // For Jedi2.0
+  //val parsers = new Jedi2Parsers // For Jedi2.0
+  val parsers = new Jedi3Parsers // For Jedi3.0
   val globalEnv = new Environment
   var verbose = false
 
