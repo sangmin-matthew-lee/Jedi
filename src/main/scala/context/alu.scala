@@ -28,7 +28,7 @@ object alu {
     case "cdr" => cdr(args)
     case "list" => list(args)
     // variables
-    //case "dereference" => dereference(args)
+    case "dereference" => dereference(args)
     case "var" => makeVar(args)
     // primitive I/O ops:
     case "write" => write(args)
@@ -163,11 +163,13 @@ object alu {
     //def p = list("a", "e" ,"i", "o", "u")
   }
 
+  // creates a new variable containing args(0)
   private def makeVar(args:List[Value]): Value = {
     Variable(args(0))
   }
 
-//  private def dereference(args:List[Value]):Value = {
-//
-//  }
+  // returns the content of args(0)
+  private def dereference(args:List[Value]):Value = {
+    args(0)
+  }
 }
