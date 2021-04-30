@@ -102,10 +102,6 @@ object alu {
 
   private def not(args: List[Value]): Value = {
     if(!args(0).isInstanceOf[Value]) throw new TypeException("Inputs to ! must be valuable")
-//    args(0) match {
-//      case x if args(0) == Boole(true) => Boole(false)
-//      case x if args(0) == Boole(false) => Boole(true)
-//    }
     args(0).asInstanceOf[Boole].unary_!()
   }
 
@@ -114,7 +110,7 @@ object alu {
   private def getEmpty():Value = empty
 
   private def cons(args:List[Value]) : Value = {
-    if(args.size != 2) throw new IllegalValueException("Input must be two")
+    if(args.size < 2) throw new TypeException("2 or more inputs required")
     //println(Pair(args(0),args(1)).isInstanceOf[Value] )
     Pair(args(0),args(1))
   }
@@ -129,8 +125,16 @@ object alu {
 
   private def list(args:List[Value]) : Value = {
     if(args.size < 2) throw new TypeException("2 or more inputs required")
-    for (s <- args) {
-      Pair(s,s)
+    val last = args.size - 1
+    var lastPair = Pair(args(last),empty)
+    var newPair = Pair(empty,empty)
+
+    for(i <- (0 to last-1).reverse) {
+      newPair = Pair(args(i),lastPair)
+      lastPair = newPair
     }
+    newPair
+    //def p = list("a", "e" ,"i", "o", "u")
   }
+
 }
