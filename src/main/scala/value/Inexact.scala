@@ -34,14 +34,14 @@ case class Inexact(val value: Double) extends Numeric with Ordered[Value] {
   // *, -, /, hashCode, etc.
   def -(other: Value): Numeric =
     other match {
-      case x: Exact => Exact(this.value.toInt - x.value)
+      case x: Exact => Inexact(this.value - x.value)
       case x: Inexact => Inexact(this.value - x.value)
       case _ => throw new TypeException("Numeric operand required")
     }
 
   def *(other: Value): Numeric =
     other match {
-      case x: Exact => Exact(this.value.toInt * x.value)
+      case x: Exact => Inexact(this.value * x.value)
       case x: Inexact => Inexact(this.value * x.value)
       case _ => throw new TypeException("Numeric operand required")
     }
@@ -50,7 +50,7 @@ case class Inexact(val value: Double) extends Numeric with Ordered[Value] {
     if(other == Inexact(0.0)) throw new IllegalValueException("Divided by 0!")
 
     other match {
-      case x: Exact => Exact(this.value.toInt / x.value)
+      case x: Exact => Inexact(this.value / x.value)
       case x: Inexact => Inexact(this.value / x.value)
       //case x if other == Inexact(0) => throw new IllegalValueException("Divided by 0!")
       case _ => throw new TypeException("Numeric operand required")

@@ -35,8 +35,8 @@ object alu {
     // case "prompt" => prompt(args)
     // case "read" => read(args)
 
-    // store ops
     /*
+    // store ops
     case "store" => store(args)
     case "put" => put(args)
     case "rem" => rem(args)
@@ -47,6 +47,7 @@ object alu {
     case "addLast" => addLast(args)
     case "size" => size(args)
     */
+
     case _ => throw new UndefinedException(opcode)
   }
 
@@ -177,4 +178,43 @@ object alu {
       throw new TypeException()
     }
   }
+
+/*
+ // store ops
+ // returns a new store containing args
+ private def store(args: List[Value]) = {Store(args)}
+
+ // put(v: Value, p: Integer, s: Store) calls s.put(v, p)
+ private def put(args: List[Value]) = {
+   if (args.size != 3)
+      throw new TypeException("expected signature: put(v: Value, p: Integer, s: Store)")
+   if(!args(1).isInstanceOf[Integer] || !args(2).isInstanceOf[Store])
+      throw new TypeException("expected signature: put(v: Value, p: Integer, s: Store)")
+   args(2).asInstanceOf[Store].put(args(0), args(1).asInstanceOf[Integer])
+   Notification.DONE
+ }
+
+ // rem(p: Integer, s: Store) calls s.rem(p)
+ private def rem(args: List[Value]) = {???}
+
+ // get(p: Integer, s: Store) calls s.get(p)
+ private def get(args: List[Value]) = {???}
+
+ // map(f: Closure, s: Store) calls s.map(f)
+ private def map(args: List[Value]) = {???}
+
+ // filter(f: Closure, s: Store) calls s.filter(f)
+ private def filter(args: List[Value]) = {???}
+
+ // contains(v: Value, s: Store) calls s.contains(v)
+ private def contains(args: List[Value]) = {???}
+
+ // addLast(v: Value, s: Store) calls s.add(v)
+ private def addLast(args: List[Value]) = {???}
+
+ // size(s: Store) calls s.size
+ private def size(args: List[Value]) = {???}
+
+ */
+
 }
