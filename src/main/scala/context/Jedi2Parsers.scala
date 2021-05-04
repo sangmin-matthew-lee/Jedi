@@ -17,7 +17,7 @@ class Jedi2Parsers extends Jedi1Parsers {
   // lambda parser
   // lambda ::= "lambda" ~ params ~ expression
   def lambda: Parser[Lambda] = "lambda" ~ params ~ expression ^^ {
-    case "lambda" ~ param ~ exp => Lambda(param, exp)    //???
+    case "lambda" ~ param ~ exp => Lambda(param, exp)
   }
 
   // block parser

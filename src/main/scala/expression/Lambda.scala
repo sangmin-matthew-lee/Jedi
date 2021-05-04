@@ -6,7 +6,6 @@ case class Lambda(val parameters: List[Identifier], val body: Expression) extend
   override def execute(env: Environment): Value = {
 
     val closure = new Closure(parameters, body, env)
-    //closure(parameters.map(_.execute(env)))
     closure
   }
 }

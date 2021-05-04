@@ -25,3 +25,4 @@ case class Block(val exps:List[Expression]) extends SpecialForm {
 -> x
 Undefined identifier: x
  */
+//def b = lambda(n) { def c = var(0); {c := [c] + n }; [c]}

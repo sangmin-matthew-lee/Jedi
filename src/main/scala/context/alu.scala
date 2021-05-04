@@ -117,14 +117,14 @@ object alu {
 
   private def equals(args: List[Value]): Value = {
     if(args.size != 2) throw new TypeException("2 inputs required by ==")
-    if(!args(0).isInstanceOf[Ordered[Value]]) throw new TypeException("Inputs to == must be orderable")
-    Boole(args(0).asInstanceOf[Ordered[Value]] == args(1))
+    if(!args(0).isInstanceOf[Value]) throw new TypeException("Inputs to == must be orderable")
+    Boole(args(0) == args(1))
   }
 
   private def unequals(args: List[Value]): Value = {
     if(args.size != 2) throw new TypeException("2 inputs required by !=")
-    if(!args(0).isInstanceOf[Ordered[Value]]) throw new TypeException("Inputs to != must be orderable")
-    Boole(args(0).asInstanceOf[Ordered[Value]] != args(1))
+    if(!args(0).isInstanceOf[Value]) throw new TypeException("Inputs to != must be orderable")
+    Boole(args(0) != args(1))
   }
 
   private def not(args: List[Value]): Value = {

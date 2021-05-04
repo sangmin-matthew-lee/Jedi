@@ -7,9 +7,7 @@ class Closure(val parameters:List[Identifier], val body: Expression, val defEnv:
 
     def apply(args:List[Value]): Value = {
       val tempEnv = new Environment(defEnv)   //create temp Env extending def Env
-      //println("temp Evn is created")
       tempEnv.bulkPut(parameters, args)     //bind paramters to arguments in temp Env
-      //println("bind complete")
       body.execute(tempEnv)
     }
 }
