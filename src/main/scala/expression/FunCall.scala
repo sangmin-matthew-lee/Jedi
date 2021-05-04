@@ -11,7 +11,7 @@ case class FunCall(val operator: Identifier, val operands:List[Expression]) exte
 
      if (env.contains(operator)) {
        //println("ID is new")
-       if (flags.paramPassing == flags.BY_NAME) {
+       if (flags.paramPassing == flags.BY_REF) {
          arguments = operands.map(new Thunk(_,env))   //args are Thunk now
        } else {
          arguments = operands.map(_.execute(env)) //args are not Thunk
