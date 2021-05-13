@@ -8,9 +8,9 @@ case class Identifier(val name: String) extends Expression {
     //env(this)
     var result : Value = env(this)
     if(result.isInstanceOf[Thunk]) {result = result.asInstanceOf[Thunk].apply()}
-    result
-  }
-  override def hashCode = this.toString.hashCode()
+  result
+}
+override def hashCode = this.toString.hashCode()
 
   override def toString = name
 }
